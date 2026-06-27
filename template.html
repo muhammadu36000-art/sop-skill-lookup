@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧭 工作手册 · SOP & 技能速查</title>
+<style>
+  :root {
+    --bg: #f4f6fa;
+    --card-bg: #fff;
+    --text: #1a1a2e;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #4f8ef7;
+    --accent-light: #eef2ff;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --radius: 12px;
+    --ai-blue: #4f8ef7;
+    --ai-purple: #a855f7;
+    --ai-green: #22c55e;
+    --ai-orange: #f59e0b;
+    --tag-ai: #dbeafe;
+    --tag-ai-text: #2563eb;
+    --tag-travel: #dcfce7;
+    --tag-travel-text: #16a34a;
+    --tag-story: #fef3c7;
+    --tag-story-text: #d97706;
+    --tag-ppt: #f3e8ff;
+    --tag-ppt-text: #7c3aed;
+    --tag-global: #ffe4e6;
+    --tag-global-text: #e11d48;
+    --tag-research: #ccfbf1;
+    --tag-research-text: #0d9488;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: var(--bg); color: var(--text); line-height:1.6;
+  }
+
+  /* ═══ 顶部 ═══ */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index:200;
+  }
+  .topbar-inner {
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px;
+  }
+  .topbar-title { font-size:18px; font-weight:700; color:var(--text); letter-spacing:-0.3px; }
+  .topbar-title span { color:var(--accent); }
+  .topbar-meta { font-size:12px; color:var(--text-muted); }
+
+  /* ═══ Tab 导航 ═══ */
+  .tab-nav {
+    max-width:1200px; margin:0 auto;
+    display:flex; gap:0; padding:0 24px;
+    border-bottom: 2px solid transparent;
+  }
+  .tab-btn {
+    padding:10px 24px; font-size:14px; font-weight:600;
+    border:none; background:none; cursor:pointer;
+    color:var(--text-muted); border-bottom:2px solid transparent;
+    margin-bottom:-1px; transition:all 0.2s;
+  }
+  .tab-btn:hover { color:var(--accent); }
+  .tab-btn.active {
+    color:var(--accent); border-bottom-color:var(--accent);
+    background:var(--accent-light);
+    border-radius:8px 8px 0 0;
+  }
+
+  /* ═══ 控制栏（搜索+筛选）╗══ */
+  .controls {
+    position:sticky; top:89px; z-index:100;
+    background:rgba(244,246,250,0.95);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+    padding:10px 24px;
+  }
+  .controls-inner {
+    max-width:1200px; margin:0 auto;
+    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+  }
+  .search-box { flex:1; min-width:200px; position:relative; }
+  .search-box input {
+    width:100%; padding:9px 16px 9px 36px;
+    border:1px solid var(--border); border-radius:8px; font-size:14px;
+    background:var(--card-bg); outline:none; transition:border-color 0.2s;
+  }
+  .search-box input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,142,247,0.15); }
+  .search-box::before { content:"🔍"; position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:13px; }
+  .stats { font-size:13px; color:var(--text-muted); white-space:nowrap; }
+
+  .cat-tabs {
+    max-width:1200px; margin:8px auto 0; padding:0 24px;
+    display:flex; gap:6px; flex-wrap:wrap;
+  }
+  .cat-tab {
+    padding:5px 14px; border-radius:20px; font-size:12px;
+    border:1px solid var(--border); background:var(--card-bg);
+    cursor:pointer; transition:all 0.2s; color:var(--text-muted); white-space:nowrap;
+  }
+  .cat-tab:hover { border-color:var(--accent); color:var(--accent); }
+  .cat-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .cat-tab .count { margin-left:4px; font-size:10px; opacity:0.7; }
+  .clear-btn { cursor:pointer; font-size:11px; padding:4px 10px; color:var(--text-muted); }
+  .clear-btn:hover { color:var(--accent); }
+
+  .legend {
+    max-width:1200px; margin:6px auto 0; padding:0 24px;
+    display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--text-muted);
+  }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .legend-dot { width:8px; height:8px; border-radius:50%; }
+
+  /* ═══ 卡片网格 ═══ */
+  .grid {
+    max-width:1200px; margin:16px auto; padding:0 24px 60px;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:14px;
+  }
+  .grid.hidden { display:none; }
+
+  /* ═══ SOP 卡片 ═══ */
+  .card-sop {
+    background:var(--card-bg); border-radius:var(--radius); padding:0;
+    box-shadow:var(--shadow); border:1px solid transparent;
+    transition:all 0.2s; cursor:pointer; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .card-sop:hover { border-color:var(--border); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .card-accent { height:4px; }
+  .card-body { padding:16px 18px 12px; flex:1; }
+  .card-tag {
+    display:inline-block; padding:2px 10px; border-radius:12px;
+    font-size:11px; font-weight:600; margin-bottom:6px;
+  }
+  .tag-ai { background:var(--tag-ai); color:var(--tag-ai-text); }
+  .tag-travel { background:var(--tag-travel); color:var(--tag-travel-text); }
+  .tag-story { background:var(--tag-story); color:var(--tag-story-text); }
+  .tag-ppt { background:var(--tag-ppt); color:var(--tag-ppt-text); }
+  .tag-global { background:var(--tag-global); color:var(--tag-global-text); }
+  .tag-research { background:var(--tag-research); color:var(--tag-research-text); }
+  .card-title { font-size:15px; font-weight:700; margin-bottom:4px; line-height:1.4; }
+  .card-desc { font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .card-footer { padding:8px 18px 12px; display:flex; gap:5px; flex-wrap:wrap; }
+  .chip { font-size:10px; padding:2px 8px; border-radius:4px; background:var(--accent-light); color:var(--accent); }
+
+  /* ═══ SOP 展开详情 ═══ */
+  .card-detail {
+    max-height:0; overflow:hidden; transition:max-height 0.35s ease;
+    border-top:1px solid var(--border);
+  }
+  .card-detail.open { max-height:5000px; }
+  .detail-inner { padding:14px 18px 16px; }
+  .step-block { margin-bottom:14px; }
+  .step-block:last-child { margin-bottom:0; }
+  .step-header {
+    display:flex; align-items:center; gap:8px; cursor:pointer;
+    padding:6px 10px; border-radius:8px; background:var(--accent-light);
+    user-select:none;
+  }
+  .step-header:hover { background:#dbeafe; }
+  .step-num { font-size:12px; font-weight:800; color:var(--accent); min-width:22px; }
+  .step-name { font-size:13px; font-weight:600; color:var(--text); flex:1; }
+  .step-toggle { font-size:12px; color:var(--text-muted); transition:transform 0.2s; }
+  .step-toggle.open { transform:rotate(90deg); }
+  .step-body { display:none; padding:8px 10px 4px 32px; font-size:12px; color:var(--text-muted); line-height:1.7; }
+  .step-body.open { display:block; }
+  .step-body .label { font-weight:600; color:var(--text); margin-top:6px; display:block; }
+  .step-body ul { padding-left:16px; margin:4px 0; }
+  .step-body li { margin-bottom:2px; }
+  .rule-box { background:#f8f9fa; border-radius:6px; padding:8px 10px; margin-top:6px; font-size:11px; line-height:1.7; }
+  .rule-hard { border-left:3px solid #ef4444; }
+  .rule-soft { border-left:3px solid #f59e0b; }
+  .rule-tip { border-left:3px solid #22c55e; }
+  .rule-label { font-weight:700; font-size:10px; margin-bottom:3px; }
+  .rule-hard .rule-label { color:#ef4444; }
+  .rule-soft .rule-label { color:#f59e0b; }
+  .rule-tip .rule-label { color:#22c55e; }
+  .tools-tag { display:inline-block; padding:1px 7px; border-radius:4px; background:#eef2ff; color:#4f46e5; font-size:10px; margin:2px 3px 2px 0; }
+
+  .sop-link {
+    display:inline-block; margin-top:10px; padding:5px 14px; border-radius:6px;
+    background:var(--accent); color:#fff; text-decoration:none;
+    font-size:12px; font-weight:600; transition:background 0.2s;
+  }
+  .sop-link:hover { background:#3b7de8; }
+
+  /* ═══ 技能卡片 ═══ */
+  .card-skill {
+    background:var(--card-bg); border-radius:var(--radius); padding:16px 18px;
+    box-shadow:var(--shadow); border:1px solid transparent;
+    transition:all 0.2s; cursor:default;
+  }
+  .card-skill:hover { border-color:var(--border); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .skill-header { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px; }
+  .skill-name { font-size:15px; font-weight:600; line-height:1.4; }
+  .skill-type-tag { font-size:10px; padding:2px 10px; border-radius:12px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
+  .tag-user { background:var(--tag-ai); color:var(--tag-ai-text); }
+  .tag-project { background:var(--tag-travel); color:var(--tag-travel-text); }
+  .tag-plugin { background:#dbeafe; color:#1565c0; }
+  .tag-bundled { background:var(--tag-ppt); color:var(--tag-ppt-text); }
+  .tag-sop_doc { background:var(--tag-story); color:var(--tag-story-text); }
+  .skill-cat { font-size:11px; color:var(--text-muted); margin-bottom:7px; }
+  .skill-desc { font-size:13px; color:var(--text-muted); margin-bottom:8px; line-height:1.5; }
+  .use-section { background:#f8f9fa; border-radius:6px; padding:8px 10px; margin-bottom:6px; }
+  .use-label { font-size:10px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+  .use-text { font-size:11px; color:#3c4043; line-height:1.5; white-space:pre-line; }
+  .skill-triggers { display:flex; flex-wrap:wrap; gap:4px; }
+  .skill-trigger { font-size:10px; padding:2px 7px; border-radius:4px; background:#e8f0fe; color:#1967d2; white-space:nowrap; }
+  .skill-sop-tag { font-size:10px; padding:2px 7px; border-radius:4px; background:#fef3e2; color:#b45b0a; white-space:nowrap; }
+
+  .section-title {
+    grid-column:1 / -1;
+    font-size:17px; font-weight:700; padding:16px 0 2px;
+    letter-spacing:-0.3px; border-bottom:2px solid var(--accent); margin-bottom:4px;
+  }
+
+  .empty-state {
+    grid-column:1 / -1; text-align:center; padding:60px 20px; color:var(--text-muted);
+  }
+  .empty-state .emoji { font-size:36px; margin-bottom:10px; }
+
+  @media (max-width:680px) {
+    .topbar-inner { padding:10px 14px; }
+    .tab-nav { padding:0 14px; }
+    .controls { padding:10px 14px; }
+    .grid { grid-template-columns:1fr; padding:0 14px 40px; }
+    .cat-tabs { padding:0 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ 顶部栏 ═══ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <div class="topbar-title">🧭 工作手册 · <span>SOP & 技能速查</span></div>
+      <div class="topbar-meta">WorkBuddy 用户 · 全部工作流与技能索引</div>
+    </div>
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="sop" onclick="switchTab('sop')">📋 SOP 手册</button>
+    <button class="tab-btn" data-tab="skill" onclick="switchTab('skill')">🛠 技能手册</button>
+  </div>
+</div>
+
+<!-- ═══ SOP 控制栏 ═══ -->
+<div class="controls" id="controls-sop">
+  <div class="controls-inner">
+    <div class="search-box">
+      <input type="text" id="search-sop" placeholder="搜索 SOP 名称、工作区、关键词…" autocomplete="off">
+    </div>
+    <div class="stats" id="stats-sop">显示全部</div>
+  </div>
+  <div class="cat-tabs" id="catTabs-sop"></div>
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot" style="background:#2563eb"></span> AI自媒体</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#16a34a"></span> 旅游自媒体</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#d97706"></span> 短篇创作</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#7c3aed"></span> PPT工作站</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#e11d48"></span> 全局角色</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#0d9488"></span> 创意研究</span>
+    <span class="clear-btn" onclick="clearSOP()">← 清除筛选</span>
+  </div>
+</div>
+
+<!-- ═══ 技能控制栏 ═══ -->
+<div class="controls" id="controls-skill" style="display:none">
+  <div class="controls-inner">
+    <div class="search-box">
+      <input type="text" id="search-skill" placeholder="搜索技能名称、功能、分类、触发词…" autocomplete="off">
+    </div>
+    <div class="stats" id="stats-skill">显示全部</div>
+  </div>
+  <div class="cat-tabs" id="catTabs-skill"></div>
+  <div class="legend">
+    <span class="legend-item" onclick="filterByType('user')" id="typeFilter-user"><span class="legend-dot" style="background:#6b7280"></span> 用户级</span>
+    <span class="legend-item" onclick="filterByType('plugin')" id="typeFilter-plugin"><span class="legend-dot" style="background:#1565c0"></span> 内置插件</span>
+    <span class="legend-item" onclick="filterByType('bundled')" id="typeFilter-bundled"><span class="legend-dot" style="background:#7c3aed"></span> 系统内置</span>
+    <span class="clear-btn" onclick="clearSkill()">← 清除筛选</span>
+  </div>
+</div>
+
+<!-- ═══ SOP 网格 ═══ -->
+<div class="grid" id="grid-sop"></div>
+
+<!-- ═══ 技能网格 ═══ -->
+<div class="grid hidden" id="grid-skill"></div>
+
+<script>
+// ============================================================
+//  数据定义
+// ============================================================
+
+// ═══ SOP 数据 ═══
+const sops = [];  // __SOPS_DATA__
+
+
+// ═══ 技能数据 ═══
+const skills = [];  // __SKILLS_DATA__
+
+
+// ============================================================
+//  Tab 切换
+// ============================================================
+let activeTab = 'sop';
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.getElementById('controls-sop').style.display = tab === 'sop' ? '' : 'none';
+  document.getElementById('controls-skill').style.display = tab === 'skill' ? '' : 'none';
+  document.getElementById('grid-sop').classList.toggle('hidden', tab !== 'sop');
+  document.getElementById('grid-skill').classList.toggle('hidden', tab !== 'skill');
+  if (tab === 'sop') filterSOP();
+  else filterSkill();
+}
+
+// ============================================================
+//  SOP 渲染
+// ============================================================
+let activeCatSOP = '';
+
+const areaColors = [
+  {key:"ai",       label:"AI自媒体",     cls:"tag-ai",      accent:"#2563eb"},
+  {key:"travel",   label:"旅游自媒体",   cls:"tag-travel",   accent:"#16a34a"},
+  {key:"story",    label:"短篇创作",     cls:"tag-story",    accent:"#d97706"},
+  {key:"ppt",      label:"PPT工作站",     cls:"tag-ppt",      accent:"#7c3aed"},
+  {key:"global",   label:"全局角色",     cls:"tag-global",   accent:"#e11d48"},
+  {key:"research", label:"创意研究",     cls:"tag-research", accent:"#0d9488"}
+];
+
+function buildSOPCards(filtered) {
+  const grid = document.getElementById('grid-sop');
+  grid.innerHTML = '';
+  if (activeCatSOP) {
+    const inCat = filtered.filter(s => s.area === activeCatSOP);
+    inCat.forEach(s => grid.appendChild(createSOPCard(s)));
+  } else {
+    areaColors.forEach(ac => {
+      const inCat = filtered.filter(s => s.area === ac.key);
+      if (inCat.length === 0) return;
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = ac.label;
+      grid.appendChild(title);
+      inCat.forEach(s => grid.appendChild(createSOPCard(s)));
+    });
+  }
+  if (grid.children.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="emoji">📋</div><p>没有匹配的SOP，试试其他关键词？</p></div>';
+  }
+  document.getElementById('stats-sop').textContent = activeCatSOP
+    ? `「${areaColors.find(a=>a.key===activeCatSOP).label}」共 ${filtered.filter(s=>s.area===activeCatSOP).length} 个`
+    : `显示全部 ${filtered.length} 个SOP`;
+}
+
+function createSOPCard(s) {
+  const ac = areaColors.find(a => a.key === s.area);
+  const div = document.createElement('div');
+  div.className = 'card-sop';
+  div.onclick = function(e) {
+    if (e.target.closest('.sop-link') || e.target.closest('.step-header')) return;
+    const detail = this.querySelector('.card-detail');
+    detail.classList.toggle('open');
+  };
+
+  let stepsHtml = s.steps.map((step, i) => {
+    let rulesHtml = '';
+    if (step.rules && step.rules.length) {
+      rulesHtml = '<div class="rule-box ' + (step.rules[0].type==='hard'?'rule-hard':step.rules[0].type==='soft'?'rule-soft':'rule-tip') + '">';
+      step.rules.forEach(r => {
+        rulesHtml += `<div class="rule-label">${r.type==='hard'?'⛔ 硬规':r.type==='soft'?'⚠️ 软规':'💡 提示'}</div><div>${r.text}</div>`;
+      });
+      rulesHtml += '</div>';
+    }
+    let toolsHtml = '';
+    if (step.tools && step.tools.length) {
+      toolsHtml = '<div style="margin-top:5px;">' + step.tools.map(t => `<span class="tools-tag">🛠 ${t}</span>`).join('') + '</div>';
+    }
+    let pathHtml = step.path ? `<div style="font-size:11px;color:#9ca3af;margin-top:4px;">📁 ${step.path}</div>` : '';
+
+    return `<div class="step-block">
+      <div class="step-header" onclick="toggleStep(this)">
+        <span class="step-num">${step.num}</span>
+        <span class="step-name">${step.name}</span>
+        <span class="step-toggle">▶</span>
+      </div>
+      <div class="step-body">
+        <span class="label">做什么：</span>${step.task}
+        ${rulesHtml}
+        ${toolsHtml}
+        ${pathHtml}
+      </div>
+    </div>`;
+  }).join('');
+
+  div.innerHTML = `
+    <div class="card-accent" style="background:${ac.accent}"></div>
+    <div class="card-body">
+      <span class="card-tag ${ac.cls}">${ac.label}</span>
+      <div class="card-title">${s.title}</div>
+      <div class="card-desc">${s.desc}</div>
+      <div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap;">
+        ${s.chips.map(c => `<span class="chip">${c}</span>`).join('')}
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        ${stepsHtml}
+        <a class="sop-link" href="${s.link}" target="_blank">📄 查看 SOP 原文</a>
+      </div>
+    </div>
+  `;
+  return div;
+}
+
+function toggleStep(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.step-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function buildCatTabsSOP() {
+  const container = document.getElementById('catTabs-sop');
+  container.innerHTML = '';
+  areaColors.forEach(ac => {
+    const count = sops.filter(s => s.area === ac.key).length;
+    if (count === 0) return;
+    const btn = document.createElement('span');
+    btn.className = 'cat-tab' + (activeCatSOP === ac.key ? ' active' : '');
+    btn.innerHTML = ac.label + '<span class="count">' + count + '</span>';
+    btn.onclick = function() {
+      activeCatSOP = (activeCatSOP === ac.key) ? '' : ac.key;
+      buildCatTabsSOP();
+      filterSOP();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function filterSOP() {
+  const q = document.getElementById('search-sop').value.trim().toLowerCase();
+  let filtered = sops;
+  if (q) {
+    filtered = sops.filter(s =>
+      s.title.toLowerCase().includes(q) ||
+      s.desc.toLowerCase().includes(q) ||
+      s.keywords.toLowerCase().includes(q) ||
+      s.areaLabel.toLowerCase().includes(q)
+    );
+  }
+  buildSOPCards(filtered);
+}
+
+function clearSOP() {
+  activeCatSOP = '';
+  document.getElementById('search-sop').value = '';
+  buildCatTabsSOP();
+  filterSOP();
+}
+
+document.getElementById('search-sop').addEventListener('input', filterSOP);
+
+// ============================================================
+//  技能类型筛选
+// ============================================================
+// 当前技能类型筛选（user/plugin/bundled）
+let activeTypeSkill = '';
+
+function filterByType(type) {
+  if (activeTypeSkill === type) {
+    activeTypeSkill = '';  // 再次点击取消筛选
+  } else {
+    activeTypeSkill = type;
+  }
+  // 更新图例高亮样式
+  ['user','plugin','bundled'].forEach(t => {
+    const el = document.getElementById('typeFilter-' + t);
+    if (el) el.style.opacity = (activeTypeSkill === '' || activeTypeSkill === t) ? '1' : '0.35';
+    if (el) el.style.fontWeight = (activeTypeSkill === t) ? '700' : '400';
+  });
+  filterSkill();
+}
+
+
+// ============================================================
+//  技能渲染
+// ============================================================
+let activeCatSkill = '';
+
+const skillCatOrder = [
+  "AI资讯与情报","内容创作·写作","AI视频生成","视频剪辑与处理",
+  "图像生成与设计","PPT与演示","社交媒体运营","搜索工具",
+  "AI角色与专家","音频处理","内容校准系统","办公与云服务",
+  "多模态分析","工具与系统","工作流/SOP","文档处理","项目工具","金融数据"
+];
+
+function getTypeLabel(type) {
+  const map = {'user':'用户级','project':'项目SOP','plugin':'内置插件','bundled':'系统内置','sop_doc':'SOP文档'};
+  return map[type] || type;
+}
+function getTypeClass(type) {
+  const map = {'user':'tag-user','project':'tag-project','plugin':'tag-plugin','bundled':'tag-bundled','sop_doc':'tag-sop_doc'};
+  return map[type] || 'tag-user';
+}
+
+function buildSkillCards(filtered) {
+  // 隐藏项目SOP类型（已在SOP Tab展示）
+  filtered = filtered.filter(s => !['project','sop_doc'].includes(s.type));
+  const grid = document.getElementById('grid-skill');
+  grid.innerHTML = '';
+  if (activeCatSkill) {
+    const inCat = filtered.filter(s => s.cat === activeCatSkill);
+    inCat.forEach(s => grid.appendChild(createSkillCard(s)));
+  } else {
+    const cats = [...new Set(skills.map(s => s.cat))].sort((a,b) => {
+      const ai = skillCatOrder.indexOf(a), bi = skillCatOrder.indexOf(b);
+      return (ai===-1?999:ai) - (bi===-1?999:bi);
+    });
+    cats.forEach(cat => {
+      const inCat = filtered.filter(s => s.cat === cat);
+      if (inCat.length === 0) return;
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = cat;
+      grid.appendChild(title);
+      inCat.forEach(s => grid.appendChild(createSkillCard(s)));
+    });
+  }
+  if (grid.children.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="emoji">🛠</div><p>没有匹配的技能，试试其他关键词？</p></div>';
+  }
+  document.getElementById('stats-skill').textContent = activeCatSkill
+    ? `「${activeCatSkill}」共 ${skills.filter(s=>s.cat===activeCatSkill).length} 个`
+    : `显示全部 ${skills.length} 个技能`;
+}
+
+function createSkillCard(s) {
+  const div = document.createElement('div');
+  div.className = 'card-skill';
+  let extra = '';
+  if (s.subSkills) extra += `<span class="skill-sop-tag" title="${s.subSkills.join(', ')}">内含 ${s.subSkills.length} 个子模块</span>`;
+  if (s.workflow) extra += `<span class="skill-sop-tag" title="${s.workflow}">有工作流</span>`;
+  const useHtml = s.use ? `<div class="use-section"><div class="use-label">📌 如何调用</div><div class="use-text">${s.use}</div></div>` : '';
+  div.innerHTML = `
+    <div class="skill-header">
+      <div class="skill-name">${s.name}</div>
+      <span class="skill-type-tag ${getTypeClass(s.type)}">${getTypeLabel(s.type)}</span>
+    </div>
+    <div class="skill-cat">${s.cat}</div>
+    <div class="skill-desc">${s.desc}</div>
+    ${useHtml}
+    <div class="skill-triggers">
+      ${s.triggers.slice(0,8).map(t => `<span class="skill-trigger">${t}</span>`).join('')}
+      ${extra}
+    </div>
+  `;
+  return div;
+}
+
+function buildCatTabsSkill() {
+  const container = document.getElementById('catTabs-skill');
+  container.innerHTML = '';
+  const cats = [...new Set(skills.map(s => s.cat))].sort((a,b) => {
+    const ai = skillCatOrder.indexOf(a), bi = skillCatOrder.indexOf(b);
+    return (ai===-1?999:ai) - (bi===-1?999:bi);
+  });
+  cats.forEach(cat => {
+    const count = skills.filter(s => s.cat === cat).length;
+    const btn = document.createElement('span');
+    btn.className = 'cat-tab' + (activeCatSkill === cat ? ' active' : '');
+    btn.innerHTML = cat + '<span class="count">' + count + '</span>';
+    btn.onclick = function() {
+      activeCatSkill = (activeCatSkill === cat) ? '' : cat;
+      buildCatTabsSkill();
+      filterSkill();
+    };
+    container.appendChild(btn);
+  });
+}
+
+function filterSkill() {
+  const q = document.getElementById('search-skill').value.trim().toLowerCase();
+  let filtered = skills;
+  // 类型筛选
+  if (activeTypeSkill) {
+    filtered = filtered.filter(s => s.type === activeTypeSkill);
+  }
+  if (q) {
+    filtered = skills.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      s.desc.toLowerCase().includes(q) ||
+      s.cat.toLowerCase().includes(q) ||
+      s.triggers.some(t => t.toLowerCase().includes(q)) ||
+      (s.use && s.use.toLowerCase().includes(q))
+    );
+  }
+  buildSkillCards(filtered);
+}
+
+function clearSkill() {
+  activeCatSkill = '';
+  document.getElementById('search-skill').value = '';
+  buildCatTabsSkill();
+  filterSkill();
+}
+
+document.getElementById('search-skill').addEventListener('input', filterSkill);
+
+// ============================================================
+//  初始化
+// ============================================================
+buildCatTabsSOP();
+filterSOP();
+buildCatTabsSkill();
+filterSkill();
+</script>
+</body>
+</html>
